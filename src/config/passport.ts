@@ -1,21 +1,50 @@
 import passport from "passport";
 import passportLocal from "passport-local";
+import * as bcrypt from "bcrypt";
 import { UserDocument, users } from "../models/users";
 
 const LocalStrategy = passportLocal.Strategy;
 
 passport.serializeUser((user, done) => done(null, user));
-passport.deserializeUser((user:UserDocument, done) => done(null, user))
+passport.deserializeUser((user:UserDocument, done) => done(null, user));
 
 passport.use(new LocalStrategy({ usernameField: "email"}, 
-    function(email, password, done){
+    async function(email, password, done){
 
-        users.forEach(user => {
-            if (email === user.email){
-                done(null, user);
+        // find user
+        const targetAccount = users.filter(user => user.email === email);
+        
+        if(targetAccount.length){
+            const targetUser = targetAccount[0];
+
+            const result = await bcrypt.compare(password, targetUser.auth.password);
+    
+            if(result){
+                return done(null, targetUser);
+            } else {
+                return done(null, undefined, { message: "invalid credentials"})
             }
-        })
+        } else {
+            return done(null, undefined, { message: "no user found"})
+        }
 
-        done(null, undefined)
+        
     }
 ))
+
+
+
+// users.forEach(async (user) => {
+//     if (email === user.email){
+
+//         // check if password is correct
+//         const result = await bcrypt.compare(password, user.auth.password);
+        
+//         if (result){
+//             return done(null, user);
+//         }
+//         else {
+//             return done(null, undefined, { message: "wrong password or email address"})
+//         }
+//     } 
+// });
