@@ -1,4 +1,5 @@
 export interface UserDocument {
+    id: number;
     name: string;
     email: string;
     auth: {
@@ -9,6 +10,7 @@ export interface UserDocument {
 }
 
 const user: UserDocument = {
+    id: 1,
     name: "Don",
     email: "don@domain.com",
     auth: {
