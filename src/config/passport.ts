@@ -31,20 +31,3 @@ passport.use(new LocalStrategy({ usernameField: "email"},
         
     }
 ))
-
-
-
-// users.forEach(async (user) => {
-//     if (email === user.email){
-
-//         // check if password is correct
-//         const result = await bcrypt.compare(password, user.auth.password);
-        
-//         if (result){
-//             return done(null, user);
-//         }
-//         else {
-//             return done(null, undefined, { message: "wrong password or email address"})
-//         }
-//     } 
-// });
