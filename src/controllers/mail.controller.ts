@@ -39,8 +39,6 @@ export async function sendEmail(req: Request, res: Response){
             timestamp
         }
         
-        // find each recipient, get their inbox ids
-        const inboxIds: string[] = [];
 
         recipients.forEach((recipient: string) => {
             const candidate = users.filter(user => user.email === recipient);
@@ -96,3 +94,9 @@ export function getEmails(req: Request, res: Response){
 
     res.send("not authorised");
 }
+
+/**
+ * Get all emails 
+ * @route GET /mail/
+ */
+
