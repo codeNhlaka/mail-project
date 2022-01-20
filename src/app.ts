@@ -4,8 +4,8 @@ import session from "express-session";
 import { SessionInterface } from './interfaces/session.interface';
 import bodyParser from "body-parser";
 import "./config/passport";
-import { signIn, signUp } from "./controllers/auth";
-import { sendEmail } from "./controllers/mail";
+import { signIn, signUp } from "./controllers/auth.controller";
+import { sendEmail } from "./controllers/mail.controller";
 
 declare global {
     namespace Express {
