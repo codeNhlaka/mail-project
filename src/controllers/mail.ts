@@ -4,6 +4,7 @@ import * as bcrypt from "bcrypt";
 import { EmailsInterface } from '../models/emails';
 import { UserDocument, users } from '../models/users';
 import { inboxes, InboxInterface } from '../models/inboxes';
+import { MailService } from '../services/mai.service';
 
 
 /**
@@ -14,6 +15,7 @@ import { inboxes, InboxInterface } from '../models/inboxes';
 
 export async function sendEmail(req: Request, res: Response){
     if (req.isAuthenticated()){
+        const mailservice = new MailService();
 
         const body = req.body;
         const { subject, message, recipients } = body;
@@ -35,15 +37,6 @@ export async function sendEmail(req: Request, res: Response){
             message,
             timestamp
         }
-
-
-        function pushToInbox(targetId: string){
-            for(let i = 0; i <= inboxes.length - 1; i++){
-                if (inboxes[i].id === targetId){
-                    inboxes[i].emails.push(Email);
-                }
-            }
-        }
         
         // find each recipient, get their inbox ids
         const inboxIds: string[] = [];
@@ -54,7 +47,7 @@ export async function sendEmail(req: Request, res: Response){
             if (candidate.length === 1){
 
                 const target = candidate[0];
-                pushToInbox(target.inboxId);
+                mailservice.pushToInbox(target.inboxId, Email)
 
             } else {
                 nonExistingRecipients.push(recipient);
