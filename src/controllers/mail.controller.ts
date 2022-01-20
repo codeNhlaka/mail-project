@@ -24,7 +24,7 @@ export async function sendEmail(req: Request, res: Response){
 
         
         // create email id
-        const EId: string = `${uuidv4()}-${body.from}`;
+        const EId: string = `${uuidv4()}-${req.user.email}`;
 
         // config email 
         const timestamp = new Date().getTime();
