@@ -3,6 +3,7 @@ import passport from "passport";
 import { v4 as uuidv4 } from "uuid";
 import * as bcrypt from "bcrypt";
 import { UserDocument, users } from "../models/users";
+import { inboxes, InboxInterface } from "../models/inboxes";
 
 
 interface IdInterface {
@@ -39,9 +40,7 @@ function generateId(): IdInterface {
 export async function signUp(req: Request, res: Response){
     const { name, email, password } = req.body;
 
-    const saltRounds: number = 10;
-    const salt = await bcrypt.genSalt(saltRounds);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const { id, inboxId } = generateId();
 
@@ -55,7 +54,18 @@ export async function signUp(req: Request, res: Response){
         inboxId
     }
 
+    // store user details
+
     users.push(currentData);
+
+    // store new inbox data
+    
+    const inbox:InboxInterface = {
+        id,
+        emails: []
+    }
+
+    inboxes.push(inbox);
 
     res.send("Account created successfully");
 }
