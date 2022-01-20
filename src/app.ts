@@ -11,6 +11,7 @@ declare global {
     namespace Express {
       interface User {
         email: string;
+        id: string;
       }
     }
   }

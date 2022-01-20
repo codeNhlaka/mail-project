@@ -4,7 +4,7 @@ import * as bcrypt from "bcrypt";
 import { EmailsInterface } from '../models/emails';
 import { UserDocument, users } from '../models/users';
 import { inboxes, InboxInterface } from '../models/inboxes';
-import { MailService } from '../services/mai.service';
+import { MailService } from '../services/mail.service';
 
 
 /**
@@ -32,6 +32,7 @@ export async function sendEmail(req: Request, res: Response){
         const Email:EmailsInterface = {
             id: EId,
             from: req.user.email,
+            userId: req.user.id,
             recipients,
             subject,
             message,
