@@ -1,7 +1,7 @@
 import { Request, Response} from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import * as bcrypt from "bcrypt";
-import { EmailsInterface } from '../models/emails';
+import { emails, EmailsInterface } from '../models/emails';
 import { UserDocument, users } from '../models/users';
 import { inboxes, InboxInterface } from '../models/inboxes';
 import { MailService } from '../services/mail.service';
@@ -48,12 +48,25 @@ export async function sendEmail(req: Request, res: Response){
             if (candidate.length === 1){
 
                 const target = candidate[0];
+
+                // push email to their inboxes
                 mailservice.pushToInbox(target.inboxId, Email)
 
             } else {
                 nonExistingRecipients.push(recipient);
             }
         });
+
+        emails.push(Email);
+
+        if (nonExistingRecipients.length){ // check if there are invalid address
+            res.json({
+                "invalid-addresses": nonExistingRecipients,
+                message: "Email sent only to the valid addresses"
+            });
+            
+            return;
+        }
 
         res.send("Email sent successfully");
         return;
