@@ -9,7 +9,7 @@ import { MailService } from '../services/mail.service';
 
 /**
  * Send email route
- * @route POST /sendemail
+ * @route POST /mail/send
  */
 
 
@@ -69,6 +69,28 @@ export async function sendEmail(req: Request, res: Response){
         }
 
         res.send("Email sent successfully");
+        return;
+    }
+
+    res.send("not authorised");
+}
+
+/**
+ * Get all emails 
+ * @route GET /mail/get
+ */
+
+export function getEmails(req: Request, res: Response){
+    if (req.isAuthenticated()){
+
+        const userInboxId = req.user.inboxId;
+
+        const userInbox = inboxes.filter(targetInbox => targetInbox.id === userInboxId)
+
+        res.json({
+            inbox: userInbox[0].emails
+        });
+
         return;
     }
 
