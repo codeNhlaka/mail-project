@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { v4 as uuidv4 } from 'uuid';
 import { LabelInterface, labels } from '../models/labels';
+import { EmailsInterface } from '../models/emails';
+import { InboxInterface, inboxes } from '../models/inboxes';
 
 /**
  * Create label route
@@ -66,3 +68,53 @@ export function deleteLabel(req: Request, res: Response){
     res.send("Not authorised");
 }
 
+/**
+ * Add label to email route
+ * @route PUT /labels/:name/attach/:EId
+ */
+
+export function attachLabel(req: Request, res:Response){
+    if (req.isAuthenticated()){
+        const { user } = req;
+        const { name, EId } = req.params;
+
+        // get label
+        const targetLabel: LabelInterface[] = labels.filter(targetLabel => targetLabel.name === name && targetLabel.userId === user.id);
+
+        if (targetLabel.length){
+            const label:LabelInterface = targetLabel[0];
+
+            // find user inbox
+            const userInbox: InboxInterface = inboxes.filter(targetInbox => targetInbox.id === user.inboxId)[0];
+
+            // find email where id === EId
+            const emails = userInbox.emails;
+
+            const targetEmail:EmailsInterface[] = emails.filter(targetEmail => targetEmail.id === EId);
+
+            if (targetEmail.length){
+
+                // attach label to email
+
+                const email:EmailsInterface = targetEmail[0];
+                email.label = name;
+
+                // push email to label emails
+
+                label.emails.push(email.id);
+                res.send(`Attached label ${name} to ${email.id}`);
+                return;
+
+            } else {
+                res.send("Invalid email id");
+                return;
+            }
+        } else {
+            res.send(`${name} label does not exist`);
+            return;
+        }
+
+    }
+
+    res.send("Not authorised");
+}

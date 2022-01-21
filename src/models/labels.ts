@@ -4,7 +4,7 @@ export interface LabelInterface {
     id: string;
     userId: string;
     name: string;
-    emails: EmailsInterface[]
+    emails: string[]
 }
 
 export const labels: LabelInterface[] = [];
