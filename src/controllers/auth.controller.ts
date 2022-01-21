@@ -52,6 +52,15 @@ export function signOut(req: Request, res: Response){
 export async function signUp(req: Request, res: Response){
     const { name, email, password } = req.body;
 
+    // check for duplicate
+
+    const duplicates = users.filter(targetUser => targetUser.email === email);
+
+    if (duplicates.length){
+        res.send("Email already registered");
+        return;
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const { id, inboxId } = generateId();

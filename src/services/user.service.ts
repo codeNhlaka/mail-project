@@ -27,6 +27,6 @@ export class User {
             }
         }
 
-        return null;
+        return null
     }
 }
