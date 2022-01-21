@@ -31,11 +31,22 @@ function generateId(): IdInterface {
         id,
         inboxId
     }
-}   
+}  
+
+/**
+ * Sign out route
+ * @route GET /signout
+ */
+
+export function signOut(req: Request, res: Response){
+    req.logout();
+    res.send("Logged out");
+}
+
 
 /**
  * Sign in route
- * @route POST /signIn
+ * @route POST /signin
  */
 
 export async function signUp(req: Request, res: Response){

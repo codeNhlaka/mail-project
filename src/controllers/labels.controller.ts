@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { v4 as uuidv4 } from 'uuid';
 import { LabelInterface, labels } from '../models/labels';
 import { EmailsInterface } from '../models/emails';
-import { InboxInterface, inboxes } from '../models/inboxes';
 import { User } from '../services/user.service';
 
 /**

@@ -4,7 +4,7 @@ import session from "express-session";
 import { SessionInterface } from './interfaces/session.interface';
 import bodyParser from "body-parser";
 import "./config/passport";
-import { signIn, signUp } from "./controllers/auth.controller";
+import { signIn, signUp, signOut } from "./controllers/auth.controller";
 import { sendEmail, getEmails, deleteEmail, recoverEmail } from "./controllers/mail.controller";
 import { createLabel, deleteLabel, attachLabel, removeLabel, getLabelEmails } from './controllers/labels.controller';
 import * as dotenv from "dotenv";
@@ -48,6 +48,7 @@ app.use(passport.session());
 
 app.post('/signup', signUp);
 app.post('/signin', signIn);
+app.get('/signout', signOut)
 
 // --------------- Mail Routes ------------------ //
 
