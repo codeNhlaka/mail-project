@@ -27,8 +27,6 @@ export function createLabel(req: Request, res: Response){
         labels.push(userLabel);
 
         res.send(`${name} label has been created successfully`);
-        console.log(labels);
-
         return;
     }
 
@@ -58,7 +56,6 @@ export function deleteLabel(req: Request, res: Response){
             
             labels.splice(index, 1);
             res.send(`${name} label has been deleted successfully`);
-            console.log(labels);
             return;
         }
 
