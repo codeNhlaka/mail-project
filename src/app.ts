@@ -6,7 +6,7 @@ import bodyParser from "body-parser";
 import "./config/passport";
 import { signIn, signUp } from "./controllers/auth.controller";
 import { sendEmail, getEmails, deleteEmail, recoverEmail } from "./controllers/mail.controller";
-import { createLabel, deleteLabel, attachLabel, removeLabel } from './controllers/labels.controller';
+import { createLabel, deleteLabel, attachLabel, removeLabel, getLabelEmails } from './controllers/labels.controller';
 
 declare global {
     namespace Express {
@@ -59,6 +59,7 @@ app.post('/labels/create', createLabel);
 app.delete('/labels/delete/:name', deleteLabel);
 app.put('/labels/:name/attach/:EId', attachLabel);
 app.delete('/labels/:name/remove/:EId', removeLabel);
+app.get('/labels/:name', getLabelEmails);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`app running at port ${PORT}`));

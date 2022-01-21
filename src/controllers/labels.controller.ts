@@ -210,3 +210,43 @@ export function removeLabel(req: Request, res: Response){
 
     res.send("Not authorised");
 }
+
+/**
+ * Get all emails under labelroute
+ * @route GET /labels/:name
+ */
+
+export function getLabelEmails(req: Request, res: Response){
+    if (req.isAuthenticated()){
+        const { user } = req;
+        const { name } = req.params;
+
+        // get label
+        const label = labels.filter(targetLabel => targetLabel.name === name && targetLabel.userId === user.id)[0];
+
+        if (label){
+            
+            // get inbox
+            const userInbox: InboxInterface = inboxes.filter(targetInbox => targetInbox.id === user.inboxId)[0];
+
+            // get emails 
+            const { emails } = userInbox;
+
+            const targetEmails = emails.filter(email => email.label === name);
+
+            // check if there are emails with label [name]
+            if (!targetEmails.length) {
+                res.send(`No emails under the ${name} label`);
+                return;
+            }
+
+            res.json(targetEmails);
+            return;
+        } else {
+            res.send(`${name} label does not exist`);
+            return;
+        }
+    }
+
+    res.send("Not authorised");
+}   
