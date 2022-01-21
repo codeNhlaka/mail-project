@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import * as bcrypt from "bcrypt";
 import { UserDocument, users } from "../models/users";
 import { inboxes, InboxInterface } from "../models/inboxes";
+import { trash, TrashInterface } from '../models/trash';
 
 
 interface IdInterface {
@@ -66,6 +67,16 @@ export async function signUp(req: Request, res: Response){
     }
 
     inboxes.push(inbox);
+
+    // config trash and store it
+
+    const userTrash:TrashInterface = {
+        id: `${uuidv4()}-${email}`,
+        userId: id,
+        emails: []
+    }
+
+    trash.push(userTrash);
 
     res.send("Account created successfully");
 }

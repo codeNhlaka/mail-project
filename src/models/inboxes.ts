@@ -19,12 +19,20 @@ export const inboxes: InboxInterface[] = [{
 },{
     id: "422069c9-0f8b-4d13-a853-f69bd49c2d7b",
     emails: [  {
-        id: '08bd8ec3-273a-4e7e-87ed-8074c6e3e842-kevin@domain.com',
+        id: '08bd8ec3-273a-4e7e-87ed-8074c6e3e846-kevin@domain.com',
         from: 'kevin@domain.com',
         userId: '0598570b-af4f-4eca-ad76-bdab9c0609cd',
         recipients: ['thami@domain.com', 'prince@domain.com' ],
         subject: 'Greeting',
         message: "Hello, We're good this side",
+        timestamp: 1642705303029
+      }, {
+        id: '08bd8ec3-273a-4e7e-87ed-8074c6e3e841-kevin@domain.com',
+        from: 'kevin@domain.com',
+        userId: '0598570b-af4f-4eca-ad76-bdab9c0609cd',
+        recipients: ['thami@domain.com', 'prince@domain.com' ],
+        subject: 'Reminder',
+        message: "I am on my way",
         timestamp: 1642705303029
       }]
 },{

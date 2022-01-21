@@ -5,6 +5,7 @@ import { emails, EmailsInterface } from '../models/emails';
 import { UserDocument, users } from '../models/users';
 import { inboxes, InboxInterface } from '../models/inboxes';
 import { MailService } from '../services/mail.service';
+import { trash } from '../models/trash';
 
 
 /**
@@ -96,7 +97,41 @@ export function getEmails(req: Request, res: Response){
 }
 
 /**
- * Get all emails 
- * @route GET /mail/
+ * Delete email route
+ * @route DELETE /mail/delete/:id
  */
 
+export function deleteEmail(req: Request, res: Response){
+    if (req.isAuthenticated()){
+        const { user } = req; 
+
+        const { id } = req.params;
+
+        const inbox = inboxes.filter(currentInbox => currentInbox.id === user.inboxId)[0];
+        const { emails } = inbox;
+        
+        const targetEmail = emails.filter(email => email.id === id);
+
+        if (targetEmail.length){
+            const email = targetEmail[0];
+            const index = emails.indexOf(email);
+
+            // find user trash
+            const userTrash = trash.filter(targetTrash => targetTrash.userId === user.id)[0];
+
+            // add email to trash
+            userTrash.emails.push(email);
+
+            // delete email
+            emails.splice(index, 1);
+            res.send("Email has been moved to trash");
+            console.log(trash);
+            return;
+        }
+
+        res.send("invalid email id");
+        return;
+    }
+
+    res.send("not authorised");
+}
