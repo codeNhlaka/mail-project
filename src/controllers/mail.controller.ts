@@ -6,6 +6,7 @@ import { UserDocument, users } from '../models/users';
 import { inboxes, InboxInterface } from '../models/inboxes';
 import { MailService } from '../services/mail.service';
 import { trash, TrashInterface } from '../models/trash';
+import { User } from '../services/user.service';
 
 
 /**
@@ -82,12 +83,17 @@ export async function sendEmail(req: Request, res: Response){
 export function getEmails(req: Request, res: Response){
     if (req.isAuthenticated()){
 
-        const userInboxId = req.user.inboxId;
+        const { user } = req;
 
-        const userInbox = inboxes.filter(targetInbox => targetInbox.id === userInboxId)
+        const userInfo = new User(user.id).getUser();
+        
+        if (!userInfo){
+            res.send("User data not found");
+            return;
+        }
 
         res.json({
-            inbox: userInbox[0].emails
+            inbox: userInfo.emails
         });
 
         return;
@@ -105,10 +111,16 @@ export function deleteEmail(req: Request, res: Response){
     if (req.isAuthenticated()){
         const { user } = req; 
 
+        const userInfo = new User(user.id).getUser();
+        
+        if (!userInfo){
+            res.send("User data not found");
+            return;
+        }
+
         const { id } = req.params;
 
-        const inbox = inboxes.filter(currentInbox => currentInbox.id === user.inboxId)[0];
-        const { emails } = inbox;
+        const { emails } = userInfo;
         
         const targetEmail = emails.filter(email => email.id === id);
 
@@ -147,6 +159,14 @@ export function recoverEmail(req: Request, res: Response){
         const { user } = req; 
         const { id } = req.params;
 
+        const userInfo = new User(user.id).getUser();
+        
+        if (!userInfo){
+            res.send("User data not found");
+            return;
+        }
+
+
         // get user trashed emails 
         const userTrash:TrashInterface[] = trash.filter(targetUserTrash => targetUserTrash.userId === user.id);
 
@@ -162,11 +182,13 @@ export function recoverEmail(req: Request, res: Response){
                 const email:EmailsInterface = targetEmail[0];
                 const index:number = emails.indexOf(email);
 
-                // get user inbox and push email back
-                const { inboxId } = req.user;
-                const userInbox:InboxInterface = inboxes.filter(targetInbox => targetInbox.id === inboxId)[0];
+                // push email back user emails
 
-                userInbox.emails.push(email);
+                const userEmails = userInfo.emails;
+                userEmails.push(email);
+
+                // remove email from trash
+                userTrash.slice(index, 1);
 
                 res.send("Email recovered successfully");
                 return;
