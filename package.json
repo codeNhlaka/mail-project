@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/app.ts",
-    "build": "tsc",
-    "start": "npm run build && node build/app.js"
+    "postintall": "tsc",
+    "start": "node build/app.js"
   },
   "keywords": [],
   "author": "",
@@ -34,5 +34,6 @@
     "passport": "^0.5.2",
     "passport-local": "^1.0.0",
     "uuid": "^8.3.2"
-  }
+  },
+  "engines": { "node": "17.0.0" }
 }
