@@ -7,6 +7,9 @@ import "./config/passport";
 import { signIn, signUp } from "./controllers/auth.controller";
 import { sendEmail, getEmails, deleteEmail, recoverEmail } from "./controllers/mail.controller";
 import { createLabel, deleteLabel, attachLabel, removeLabel, getLabelEmails } from './controllers/labels.controller';
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 declare global {
     namespace Express {
