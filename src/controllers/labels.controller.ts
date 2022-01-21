@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { LabelInterface, labels } from '../models/labels';
 import { EmailsInterface } from '../models/emails';
 import { InboxInterface, inboxes } from '../models/inboxes';
+import { User } from '../services/user.service';
 
 /**
  * Create label route
@@ -47,6 +48,13 @@ export function deleteLabel(req: Request, res: Response){
         const { user } = req;
         const { name } = req.params;
 
+        const userInfo = new User(user.id).getUser();
+        
+        if (!userInfo){
+            res.send("User data not found");
+            return;
+        }
+
         // get label 
         const label:LabelInterface[] = labels.filter(targetLable => targetLable.name === name && targetLable.userId === user.id);
 
@@ -58,13 +66,9 @@ export function deleteLabel(req: Request, res: Response){
             
             labels.splice(index, 1);
 
-            // get user inbox
-
-            const userInbox = inboxes.filter(targetIbox => targetIbox.id === user.inboxId)[0];
-
             // get user user emails 
             
-            const { emails } = userInbox;
+            const { emails } = userInfo;
 
             // find all emails under label
 
@@ -100,17 +104,21 @@ export function attachLabel(req: Request, res:Response){
         const { user } = req;
         const { name, EId } = req.params;
 
+        const userInfo = new User(user.id).getUser();
+        
+        if (!userInfo){
+            res.send("User data not found");
+            return;
+        }
+
         // get label
         const targetLabel: LabelInterface[] = labels.filter(targetLabel => targetLabel.name === name && targetLabel.userId === user.id);
 
         if (targetLabel.length){
             const label:LabelInterface = targetLabel[0];
 
-            // find user inbox
-            const userInbox: InboxInterface = inboxes.filter(targetInbox => targetInbox.id === user.inboxId)[0];
-
             // find email where id === EId
-            const emails = userInbox.emails;
+            const { emails } = userInfo;
 
             const targetEmail:EmailsInterface[] = emails.filter(targetEmail => targetEmail.id === EId);
 
@@ -150,19 +158,21 @@ export function removeLabel(req: Request, res: Response){
     if (req.isAuthenticated()){
         const { user } = req;
         const { name, EId } = req.params;
-    
-        // get user inbox
 
-        const userInbox: InboxInterface = inboxes.filter(targetInbox => targetInbox.id === user.inboxId)[0];
+        const userInfo = new User(user.id).getUser();
+        
+        if (!userInfo){
+            res.send("User data not found");
+            return;
+        }
 
         // get email where id === EId && label === [name]
 
-        const { emails } = userInbox;
+        const { emails } = userInfo;
 
         if (emails.length){
 
             const targetEmail = emails.filter(targetEmail => targetEmail.label === name);
-            console.log(targetEmail)
             const email = targetEmail.length ? targetEmail[0] : null;
 
             if (email){
@@ -220,17 +230,21 @@ export function getLabelEmails(req: Request, res: Response){
     if (req.isAuthenticated()){
         const { user } = req;
         const { name } = req.params;
+        
+        const userInfo = new User(user.id).getUser();
+        
+        if (!userInfo){
+            res.send("User data not found");
+            return;
+        }
 
         // get label
         const label = labels.filter(targetLabel => targetLabel.name === name && targetLabel.userId === user.id)[0];
 
         if (label){
             
-            // get inbox
-            const userInbox: InboxInterface = inboxes.filter(targetInbox => targetInbox.id === user.inboxId)[0];
-
             // get emails 
-            const { emails } = userInbox;
+            const { emails } = userInfo;
 
             const targetEmails = emails.filter(email => email.label === name);
 
