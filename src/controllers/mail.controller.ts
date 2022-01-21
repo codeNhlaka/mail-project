@@ -5,7 +5,7 @@ import { emails, EmailsInterface } from '../models/emails';
 import { UserDocument, users } from '../models/users';
 import { inboxes, InboxInterface } from '../models/inboxes';
 import { MailService } from '../services/mail.service';
-import { trash } from '../models/trash';
+import { trash, TrashInterface } from '../models/trash';
 
 
 /**
@@ -71,7 +71,7 @@ export async function sendEmail(req: Request, res: Response){
         return;
     }
 
-    res.send("not authorised");
+    res.send("Not authorised");
 }
 
 /**
@@ -93,7 +93,7 @@ export function getEmails(req: Request, res: Response){
         return;
     }
 
-    res.send("not authorised");
+    res.send("Not authorised");
 }
 
 /**
@@ -125,13 +125,58 @@ export function deleteEmail(req: Request, res: Response){
             // delete email
             emails.splice(index, 1);
             res.send("Email has been moved to trash");
-            console.log(trash);
             return;
         }
 
-        res.send("invalid email id");
+        res.send("Invalid email id");
         return;
     }
 
     res.send("not authorised");
 }
+
+
+/**
+ * Recover email route
+ * @route PUT /mail/recover/:id
+ */
+
+export function recoverEmail(req: Request, res: Response){
+    if (req.isAuthenticated()){
+        
+        const { user } = req; 
+        const { id } = req.params;
+
+        // get user trashed emails 
+        const userTrash:TrashInterface[] = trash.filter(targetUserTrash => targetUserTrash.userId === user.id);
+
+        if (userTrash.length){
+            const { emails } = userTrash[0];
+
+            // find email with matching id
+            const targetEmail: EmailsInterface[] = emails.filter(targetEmail => targetEmail.id === id);
+
+            if (targetEmail.length){
+
+                // recover email
+                const email:EmailsInterface = targetEmail[0];
+                const index:number = emails.indexOf(email);
+
+                // get user inbox and push email back
+                const { inboxId } = req.user;
+                const userInbox:InboxInterface = inboxes.filter(targetInbox => targetInbox.id === inboxId)[0];
+
+                userInbox.emails.push(email);
+
+                res.send("Email recovered successfully");
+                return;
+            }
+
+            res.send("Invalid email id");
+            return;
+        }
+    }
+
+    res.send("not authorised");
+}
+
