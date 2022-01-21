@@ -39,7 +39,7 @@ export async function sendEmail(req: Request, res: Response){
             timestamp
         }
         
-
+        // get recipients
         recipients.forEach((recipient: string) => {
             const candidate = users.filter(user => user.email === recipient);
             

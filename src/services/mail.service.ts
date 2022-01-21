@@ -1,5 +1,4 @@
 import { inboxes } from "../models/inboxes";
-import { users } from "../models/users";
 import { EmailsInterface } from '../models/emails';
 
 export class MailService {
