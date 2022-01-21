@@ -35,5 +35,5 @@
     "passport-local": "^1.0.0",
     "uuid": "^8.3.2"
   },
-  "engines": { "node": "17.0.3" }
+  "engines": { "node": "17.0.0" }
 }
