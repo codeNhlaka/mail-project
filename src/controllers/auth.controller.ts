@@ -73,7 +73,7 @@ export async function signUp(req: Request, res: Response){
     // store new inbox data
     
     const inbox:InboxInterface = {
-        id,
+        id: inboxId,
         emails: []
     }
 
