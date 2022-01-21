@@ -1,9 +1,7 @@
 import { Request, Response} from 'express';
 import { v4 as uuidv4 } from 'uuid';
-import * as bcrypt from "bcrypt";
 import { emails, EmailsInterface } from '../models/emails';
-import { UserDocument, users } from '../models/users';
-import { inboxes, InboxInterface } from '../models/inboxes';
+import { users } from '../models/users';
 import { MailService } from '../services/mail.service';
 import { trash, TrashInterface } from '../models/trash';
 import { User } from '../services/user.service';
@@ -59,7 +57,8 @@ export async function sendEmail(req: Request, res: Response){
 
         emails.push(Email);
 
-        if (nonExistingRecipients.length){ // check if there are invalid address
+        // check if there are invalid address
+        if (nonExistingRecipients.length){ 
             res.json({
                 "invalid-addresses": nonExistingRecipients,
                 message: "Email sent only to the valid addresses"
