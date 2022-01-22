@@ -101,7 +101,7 @@ export function getEmails(req: Request, res: Response){
 
 /**
  * Delete email route
- * @route DELETE /mail/delete/:id
+ * @route DELETE /mail/delete/:id 
  */
 
 export function deleteEmail(req: Request, res: Response){
@@ -177,7 +177,7 @@ export function getDeletedMails(req: Request, res: Response){
 
 /**
  * Recover email route
- * @route PUT /mail/recover/:id
+ * @route PUT /mail/trash/recover/:id
  */
 
 export function recoverEmail(req: Request, res: Response){
