@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import passport from "passport";
 import { v4 as uuidv4 } from "uuid";
-import * as bcrypt from "bcrypt";
 import { UserDocument, users } from "../models/users";
 import { inboxes, InboxInterface } from "../models/inboxes";
 import { trash, TrashInterface } from '../models/trash';
+import { Encrypt } from '../utils/encrypt';
 
 
 interface IdInterface {
@@ -61,18 +61,22 @@ export async function signUp(req: Request, res: Response){
         return;
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const encrypt = new Encrypt();
+    const hashedPassword = await encrypt.hash(password);
 
     const { id, inboxId } = generateId();
 
+    const hashedUserId = await encrypt.hash(id);
+    const hashedUserInboxId = await encrypt.hash(inboxId);
+
     const currentData:UserDocument = {
-        id,
+        id: hashedUserId,
         name,
         email,
         auth: {
             password: hashedPassword
         },
-        inboxId
+        inboxId: hashedUserInboxId
     }
 
     // store user details
@@ -82,7 +86,7 @@ export async function signUp(req: Request, res: Response){
     // store new inbox data
     
     const inbox:InboxInterface = {
-        id: inboxId,
+        id: hashedUserInboxId,
         emails: []
     }
 
@@ -122,5 +126,5 @@ export async function signIn(req: Request, res: Response, next: NextFunction){
         }
         
     })(req, res, next);
-    
+
 }
