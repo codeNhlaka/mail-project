@@ -17,12 +17,8 @@ export class User {
 
     getEmailFromTrash = (EId: string) => {
 
-        // get emails from inbox
-
         const { emails } = this.trash;
         
-        // get email from emails where id === EId
-
         const targetEmail = emails.filter(email => email.id === EId);
         const email = targetEmail.length ? targetEmail[0] : null;
 
@@ -31,12 +27,8 @@ export class User {
 
     getEmailFromInbox = (EId: string) => {
 
-        // get emails from inbox
-
         const { emails } = this.inbox;
         
-        // get email from emails where id === EId
-
         const targetEmail = emails.filter(email => email.id === EId);
         const email = targetEmail.length ? targetEmail[0] : null;
 
