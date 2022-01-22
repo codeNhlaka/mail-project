@@ -70,6 +70,53 @@ This allows us to trust and therefore procees and send through protected data to
 
 # API REFERENCE
 
+## REQUEST
+Create an account
+<br>
+
+POST `/signup` <br>
+HTTP/1.1 <br>
+Content-Type: application/json
+
+
+```js
+{
+    name: "william"
+    email: "william@gmail.com",
+    password: 123
+}
+```
+
+<br>
+
+## REQUEST
+Log into your account
+<br>
+
+POST `/signin` <br>
+HTTP/1.1 <br>
+Content-Type: application/json
+
+
+```js
+{
+    email: "william@gmail.com",
+    password: 123
+}
+```
+
+<br>
+
+## REQUEST
+Log out of your account
+<br>
+
+POST `/signout` <br>
+HTTP/1.1 <br>
+Content-Type: application/json
+
+<br>
+
 ## REQUEST 
 Get all emails in your inbox
 
@@ -134,4 +181,69 @@ HTTP/1.1 <br>
 Content-Type: application/json
 
 <br>
+
+## REQUEST
+Create a label
+<br>
+
+
+POST `/labels/create` <br>
+HTTP/1.1 <br>
+Content-Type: application/json
+
+```js
+{
+    name: "important"
+}
+```
+<br>
+
+## REQUEST
+Delete a label
+<br>
+
+
+DELETE `/labels/delete/{name}` <br>
+HTTP/1.1 <br>
+Content-Type: application/json
+
+
+<br>
+
+## REQUEST
+Attach a label to email
+<br>
+
+
+PUT `/labels/{name}/attach/{EId}` <br>
+HTTP/1.1 <br>
+Content-Type: application/json
+
+
+<br>
+
+## REQUEST
+Remove label from email
+<br>
+
+
+DELETE `/labels/{name}/remove/{EId}` <br>
+HTTP/1.1 <br>
+Content-Type: application/json
+
+
+<br>
+
+## REQUEST
+Get all emails with label
+<br>
+
+
+GET `/labels/{name}` <br>
+HTTP/1.1 <br>
+Content-Type: application/json
+
+
+<br>
+
 
