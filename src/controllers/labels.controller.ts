@@ -47,7 +47,8 @@ export function deleteLabel(req: Request, res: Response){
         const { user } = req;
         const { name } = req.params;
 
-        const userInfo = new User(user.id).getUser();
+        const userData = new User(user.id);
+        const userInfo = userData.getUser();
         
         if (!userInfo){
             res.send("User data not found");
@@ -103,7 +104,8 @@ export function attachLabel(req: Request, res:Response){
         const { user } = req;
         const { name, EId } = req.params;
 
-        const userInfo = new User(user.id).getUser();
+        const userData = new User(user.id);
+        const userInfo = userData.getUser();
         
         if (!userInfo){
             res.send("User data not found");
@@ -116,21 +118,19 @@ export function attachLabel(req: Request, res:Response){
         if (targetLabel.length){
             const label:LabelInterface = targetLabel[0];
 
-            // find email where id === EId
-            const { emails } = userInfo;
+            const targetEmail = userData.getEmailFromInbox(EId)
 
-            const targetEmail:EmailsInterface[] = emails.filter(targetEmail => targetEmail.id === EId);
-
-            if (targetEmail.length){
+            if (targetEmail){
 
                 // attach label to email
 
-                const email:EmailsInterface = targetEmail[0];
+                const email:EmailsInterface = targetEmail;
                 email.label = name;
 
                 // push email to label emails
 
                 label.emails.push(email.id);
+                
                 res.send(`Attached label ${name} to ${email.id}`);
                 return;
 
