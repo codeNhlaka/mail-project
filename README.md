@@ -15,7 +15,7 @@ request ensure that you create an account then sign in
 * http://localhost:5000/signin or
 * https://prj-email-api.herokuapp.com/signin
 
-## ROUTES
+## ENDPOINTS
 
 Authentication Routes base url `http://localhost:5000/` or `https://prj-email-api.herokuapp.com/` 
 <br>
@@ -65,3 +65,73 @@ To ensure the authenticity of each request, the api depends on the result of `re
 If the result confirms that request is authenticated, the identity of the user requesting such data is 
 then pulled from the session data through `req.user`. 
 This allows us to trust and therefore procees and send through protected data to the authorised user.
+
+<br>
+
+# API REFERENCE
+
+## REQUEST 
+Get all emails in your inbox
+
+<br>
+
+GET `/mail/get` <br>
+HTTP/1.1 <br>
+Content-Type: application/json
+
+<br>
+
+
+## REQUEST
+Send an email
+<br>
+
+POST `/mail/send` <br>
+HTTP/1.1 <br>
+Content-Type: application/json
+
+
+```js
+{
+    subject: "Reminder"
+    message: "You're doing great!",
+    recipients: ["self@gmail.com", "you@gmail.com"]
+}
+```
+
+<br>
+
+## REQUEST
+Delete an email
+<br>
+
+
+DELETE `/mail/delete/{id}` <br>
+HTTP/1.1 <br>
+Content-Type: application/json
+
+<br>
+
+## REQUEST
+Get all deleted emails
+<br>
+
+
+GET `/mail/trash` <br>
+HTTP/1.1 <br>
+Content-Type: application/json
+
+<br>
+
+
+## REQUEST
+Recover an email
+<br>
+
+
+PUT `/mail/trash/recover/{id}` <br>
+HTTP/1.1 <br>
+Content-Type: application/json
+
+<br>
+
