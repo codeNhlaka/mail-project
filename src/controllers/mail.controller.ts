@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { emails, EmailsInterface } from '../models/emails';
 import { users } from '../models/users';
 import { MailService } from '../services/mail.service';
-import { trash, TrashInterface } from '../models/trash';
 import { User } from '../services/user.service';
 
 /**
