@@ -48,15 +48,15 @@ app.use(passport.session());
 
 app.post('/signup', signUp);
 app.post('/signin', signIn);
-app.get('/signout', signOut)
+app.post('/signout', signOut)
 
 // --------------- Mail Routes ------------------ //
 
 app.post('/mail/send', sendEmail);
 app.get('/mail/get', getEmails);
 app.get('/mail/trash', getDeletedMails);
+app.put('/mail/trash/recover/:id', recoverEmail);
 app.delete('/mail/delete/:id', deleteEmail);
-app.put('/mail/recover/:id', recoverEmail);
 
 // --------------- Label Routes ------------------ //
 
