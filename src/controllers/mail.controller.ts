@@ -121,7 +121,7 @@ export function deleteEmail(req: Request, res: Response){
 
         const { emails } = userInfo;
         
-        const targetEmail = userData.getEmailInbox(id);
+        const targetEmail = userData.getEmailFromInbox(id);
 
         if (targetEmail){
 
@@ -133,6 +133,7 @@ export function deleteEmail(req: Request, res: Response){
             userTrash.emails.push(email);
 
             emails.splice(index, 1);
+            
             res.send("Email has been moved to trash");
             return;
         }
@@ -186,28 +187,25 @@ export function recoverEmail(req: Request, res: Response){
         const { user } = req; 
         const { id } = req.params;
 
-        const userInfo = new User(user.id).getUser();
+        const userData = new User(user.id);
+        const userInfo = userData.getUser();
         
         if (!userInfo){
             res.send("User data not found");
             return;
         }
 
-
-        // get user trashed emails 
         const { userTrash } = userInfo;
 
         if (userTrash){
 
             const { emails } = userTrash;
 
-            // find email with matching id
-            const targetEmail: EmailsInterface[] = emails.filter(targetEmail => targetEmail.id === id);
+            const targetEmail = userData.getEmailFromTrash(id);
 
-            if (targetEmail.length){
+            if (targetEmail){
 
-                // recover email
-                const email:EmailsInterface = targetEmail[0];
+                const email:EmailsInterface = targetEmail;
                 const index:number = emails.indexOf(email);
 
                 // push email back user emails
@@ -216,7 +214,7 @@ export function recoverEmail(req: Request, res: Response){
                 userEmails.push(email);
 
                 // remove email from trash
-                emails.slice(index, 1);
+                userTrash.emails.splice(index, 1);
 
                 res.send("Email recovered successfully");
                 return;
