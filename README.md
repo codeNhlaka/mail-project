@@ -53,3 +53,14 @@ The labels routes are designed as presented
 | /labels/:name/remove/:EId | DELETE | Removes `req.params.name` label `WHERE email.id == req.params.EId` |
 | /labels/:name | GET | Returns all emails under the `req.params.name` label |
 
+<br>
+
+## REQUEST DATA, BODY AND PARAMS
+
+To create and provide the most reliable data, the api depends on `Passport JS` and `Bcrypt`.
+Each authenticated request provides information about the user and this is made possible through the Passport middleware.
+
+<br>
+To ensure the authenticity of each request, the api depends on the result of `req.isAuthenticated()`. If the result confirms that request
+is authenticated, the identity of the user requesting such data is then pulled from the session data through `req.user`.
+This allows us to trust and therefore procees and send through protected data to the authorised user.
