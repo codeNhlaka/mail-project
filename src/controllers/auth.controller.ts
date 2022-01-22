@@ -102,6 +102,11 @@ export async function signUp(req: Request, res: Response){
 }
 
 export async function signIn(req: Request, res: Response, next: NextFunction){
+    if (req.isAuthenticated()){
+        res.send("You're already signed in");
+        return;
+    }
+
     passport.authenticate("local", (error, user, info) => {
         if (error) next(error);
 
@@ -117,4 +122,5 @@ export async function signIn(req: Request, res: Response, next: NextFunction){
         }
         
     })(req, res, next);
+    
 }
