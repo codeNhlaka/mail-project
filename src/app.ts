@@ -5,7 +5,7 @@ import { SessionInterface } from './interfaces/session.interface';
 import bodyParser from "body-parser";
 import "./config/passport";
 import { signIn, signUp, signOut } from "./controllers/auth.controller";
-import { sendEmail, getEmails, deleteEmail, recoverEmail } from "./controllers/mail.controller";
+import { sendEmail, getEmails, deleteEmail, recoverEmail, getDeletedMails } from "./controllers/mail.controller";
 import { createLabel, deleteLabel, attachLabel, removeLabel, getLabelEmails } from './controllers/labels.controller';
 import * as dotenv from "dotenv";
 
@@ -54,6 +54,7 @@ app.get('/signout', signOut)
 
 app.post('/mail/send', sendEmail);
 app.get('/mail/get', getEmails);
+app.get('/mail/trash', getDeletedMails);
 app.delete('/mail/delete/:id', deleteEmail);
 app.put('/mail/recover/:id', recoverEmail);
 

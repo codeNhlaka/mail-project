@@ -146,6 +146,28 @@ export function deleteEmail(req: Request, res: Response){
     res.send("not authorised");
 }
 
+/**
+ * Get deleted route
+ * @route GET /mail/trash
+ */
+
+export function getDeletedMails(req: Request, res: Response){
+    if (req.isAuthenticated()){
+        
+        const { user } = req;
+        const userTrash = trash.filter(targetTrash => targetTrash.userId === user.id)[0];
+
+        if (!userTrash.emails.length){
+            res.send("No emails here");
+            return;
+        }
+
+        res.json(userTrash.emails);
+        return;
+    }
+
+    res.send("not authorised");
+}
 
 /**
  * Recover email route
