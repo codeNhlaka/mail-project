@@ -11,6 +11,10 @@ passport.deserializeUser((user:UserDocument, done) => done(null, user));
 passport.use(new LocalStrategy({ usernameField: "email"}, 
     async function(email, password, done){
 
+        if (typeof password !== "string"){
+            return done(null, undefined, { message: "Password should be a string" });
+        }
+
         // find user
         const targetAccount = users.filter(user => user.email === email);
         
