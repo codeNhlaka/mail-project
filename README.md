@@ -17,7 +17,7 @@ request ensure that you create an account then sign in
 
 ## ENDPOINTS
 
-Authentication Routes base url `http://localhost:5000/` or `https://prj-email-api.herokuapp.com/` 
+Base url `http://localhost:5000/` or `https://prj-email-api.herokuapp.com/` 
 <br>
 
 The mail routes are designed as presented
