@@ -56,8 +56,9 @@ export async function signUp(req: Request, res: Response){
 
     const duplicates = users.filter(targetUser => targetUser.email === email);
 
-    if (duplicates.length){
-        res.send("Email already registered");
+    if (typeof password !== "string" || duplicates.length){
+        const error: string = typeof password !== "string" ? "Password should be a string" : "Email already registered";
+        res.send(error);
         return;
     }
 
