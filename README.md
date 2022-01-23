@@ -101,7 +101,7 @@ Content-Type: application/json
 ```js
 {
     email: "william@gmail.com",
-    password: 123
+    password: "123"
 }
 ```
 
