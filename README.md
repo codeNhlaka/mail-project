@@ -48,7 +48,7 @@ The labels routes are designed as presented
 |ROUTE|METHOD|FUNCTION|
 | --- | --- | --- |
 | /labels/create | POST | Creates a label |
-| /labels/delete/:name | DELETE | Deletes a label `WHERE name === req.params.name` && `user.id === req.user.id` |
+| /labels/delete/:name | DELETE | Deletes a label `WHERE name == req.params.name` && `user.id == req.user.id` |
 | /labels/:name/attach/:EId | PUT | Finds email `WHERE email.id == req.params.EId` and attaches label `req.params.name` to it |
 | /labels/:name/remove/:EId | DELETE | Removes `req.params.name` label `WHERE email.id == req.params.EId` |
 | /labels/:name | GET | Returns all emails under the `req.params.name` label |
