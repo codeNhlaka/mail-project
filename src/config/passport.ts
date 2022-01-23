@@ -23,7 +23,7 @@ passport.use(new LocalStrategy({ usernameField: "email"},
 
             const targetUser = targetAccount[0];
 
-            const result = await encrypt.compare(password, targetUser.auth.password);
+            const result = await encrypt.compare(password, targetUser.password);
     
             if(result){
                 return done(null, targetUser);

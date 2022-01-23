@@ -2,9 +2,7 @@ export interface UserDocument {
     id: string;
     name: string;
     email: string;
-    auth: {
-        password: string;
-    };
+    password: string;
     inboxId: string;
 }
 

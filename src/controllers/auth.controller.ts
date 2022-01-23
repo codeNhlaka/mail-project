@@ -74,9 +74,7 @@ export async function signUp(req: Request, res: Response){
         id: hashedUserId,
         name,
         email,
-        auth: {
-            password: hashedPassword
-        },
+        password: hashedPassword,
         inboxId: hashedUserInboxId
     }
 
