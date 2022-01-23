@@ -161,6 +161,8 @@ export function getDeletedMails(req: Request, res: Response){
             return;
         }
 
+        console.log(userInfo)
+
         const { userTrash } = userInfo;
 
         if (!userTrash.emails.length){

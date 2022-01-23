@@ -96,7 +96,7 @@ export async function signUp(req: Request, res: Response){
 
     const userTrash:TrashInterface = {
         id: `${uuidv4()}-${email}`,
-        userId: id,
+        userId: hashedUserId,
         emails: []
     }
 
