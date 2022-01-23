@@ -83,7 +83,7 @@ Content-Type: application/json
 {
     name: "william"
     email: "william@gmail.com",
-    password: 123
+    password: "123"
 }
 ```
 
